@@ -37,4 +37,12 @@ public class Contribution {
   public void setName(String name) {
     this.name = name;
   }
+
+  public Employee getEmployee() {
+    return employee;
+  }
+
+  public void setEmployee(Employee employee) {
+    this.employee = employee;
+  }
 }
