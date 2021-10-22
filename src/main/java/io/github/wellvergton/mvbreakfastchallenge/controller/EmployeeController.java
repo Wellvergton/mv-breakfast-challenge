@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.github.wellvergton.mvbreakfastchallenge.model.Contribution;
 import io.github.wellvergton.mvbreakfastchallenge.model.Employee;
+import io.github.wellvergton.mvbreakfastchallenge.repository.ContributionRepository;
 import io.github.wellvergton.mvbreakfastchallenge.repository.EmployeeRepository;
 
 @RestController
@@ -22,6 +24,9 @@ import io.github.wellvergton.mvbreakfastchallenge.repository.EmployeeRepository;
 public class EmployeeController {
   @Autowired
   private EmployeeRepository employeeRepository;
+  
+  @Autowired
+  private ContributionRepository contributionRepository;
 
   @GetMapping(path = "/list")
   public List<Employee> list() {
@@ -66,6 +71,19 @@ public class EmployeeController {
   
   @DeleteMapping("/delete")
   public ResponseEntity<Integer> deleteEmployee(@RequestBody Employee employee) {
+    Optional<Employee> dbEmployee = employeeRepository.findById(employee.getId());
+    List<Contribution> contributions;
+    
+    if (dbEmployee.isPresent()) {
+      contributions = dbEmployee.get().getContributions();
+      
+      if (!contributions.isEmpty()) {
+        for (Contribution c : contributions) {
+          contributionRepository.deleteContribution(c.getId());
+        }
+      }
+    }
+    
     return ResponseEntity.ok(employeeRepository.deleteEmployee(employee.getId()));
   }
 }

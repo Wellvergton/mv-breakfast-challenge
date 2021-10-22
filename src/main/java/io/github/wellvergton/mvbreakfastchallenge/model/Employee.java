@@ -1,10 +1,13 @@
 package io.github.wellvergton.mvbreakfastchallenge.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -20,6 +23,9 @@ public class Employee {
   
   @Column(nullable = false)
   private String name;
+  
+  @OneToMany(mappedBy = "employee")
+  private List<Contribution> contributions;
 
   public Integer getId() {
     return id;
@@ -43,5 +49,13 @@ public class Employee {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public List<Contribution> getContributions() {
+    return contributions;
+  }
+
+  public void setContributions(List<Contribution> contributions) {
+    this.contributions = contributions;
   }
 }

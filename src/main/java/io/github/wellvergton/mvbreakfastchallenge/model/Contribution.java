@@ -1,12 +1,10 @@
 package io.github.wellvergton.mvbreakfastchallenge.model;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 @Entity
@@ -18,8 +16,7 @@ public class Contribution {
   @Column(unique = true)
   private String name;
   
-  @ManyToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "employee_id", referencedColumnName = "id")
+  @ManyToOne
   private Employee employee;
 
   public Integer getId() {
@@ -36,13 +33,5 @@ public class Contribution {
 
   public void setName(String name) {
     this.name = name;
-  }
-
-  public Employee getEmployee() {
-    return employee;
-  }
-
-  public void setEmployee(Employee employee) {
-    this.employee = employee;
   }
 }
